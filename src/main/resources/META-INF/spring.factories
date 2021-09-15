@@ -1,0 +1,2 @@
+#-------starter?????springBoot??????????Starter?---------
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.zsk.starter.config.DemoConfig
