@@ -4,6 +4,7 @@ import com.zsk.starter.properties.DemoProperties;
 import com.zsk.starter.service.DemoService;
 import com.zsk.starter.service.impl.DemoServiceImplA;
 import com.zsk.starter.service.impl.DemoServiceImplB;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -25,11 +26,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(DemoProperties.class)
 @ConditionalOnProperty(
-        prefix = "demo",
+        prefix = DemoProperties.DEMO_PREFIX,
         name = "isOpen",
         havingValue = "true",
         matchIfMissing = true
 )
+//可以支持表达式，这里为了举例子，用了equals方法和直接冒号后面加上true的方法。
+//@ConditionalOnExpression("'${" + DemoProperties.DEMO_PREFIX + ".isOpen}'.equals('true') && ${"+DemoProperties.DEMO_PREFIX+".isOpen:true}")
 public class DemoConfig {
     /**
      * ConditionalOnMissingBean
@@ -41,7 +44,7 @@ public class DemoConfig {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(
-            prefix = "demo",
+            prefix = DemoProperties.DEMO_PREFIX,
             name = "implType",
             havingValue = "A",
             matchIfMissing = true
